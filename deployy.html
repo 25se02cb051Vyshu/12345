@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Habits Blog</title>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #2563eb;
+            color: white;
+            text-align: center;
+            padding: 35px 20px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+        }
+
+        nav {
+            background: #1e40af;
+            text-align: center;
+            padding: 12px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .blog {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .blog h2 {
+            color: #1e40af;
+            margin-bottom: 15px;
+        }
+
+        .blog p {
+            margin-bottom: 15px;
+        }
+
+        .chart-box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .chart-box h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1e40af;
+        }
+
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 22px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #1e40af;
+        }
+
+        footer {
+            text-align: center;
+            background: #1e40af;
+            color: white;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .blog,
+            .chart-box {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>The Benefits of Reading Every Day</h1>
+        <p>A simple blog about developing a healthy reading habit</p>
+    </header>
+
+    <nav>
+        <a href="#blog">Blog</a>
+        <a href="#statistics">Statistics</a>
+    </nav>
+
+    <div class="container">
+
+        <section class="blog" id="blog">
+            <h2>Why Should We Read Every Day?</h2>
+
+            <p>
+                Reading is one of the simplest habits that can improve our
+                daily lives. Whether you enjoy novels, newspapers, biographies,
+                or educational articles, reading helps us learn new things.
+            </p>
+
+            <p>
+                One major benefit of reading is that it improves knowledge.
+                Every book introduces new ideas, information, and perspectives.
+                Reading can also improve vocabulary and communication skills.
+            </p>
+
+            <p>
+                Reading is also a great way to relax. Spending a few quiet
+                minutes with a good book can help reduce distractions and
+                encourage imagination.
+            </p>
+
+            <p>
+                You do not need to read for hours every day. Even 15–20 minutes
+                can make a difference when reading becomes a regular habit.
+            </p>
+
+            <p>
+                In conclusion, reading can increase knowledge, improve
+                communication, encourage creativity, and provide relaxation.
+                Pick up a book today and start reading!
+            </p>
+        </section>
+
+        <section class="chart-box" id="statistics">
+            <h2>Weekly Reading Statistics</h2>
+
+            <canvas id="readingChart"></canvas>
+
+            <button onclick="updateChart()">
+                Generate New Reading Data
+            </button>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Reading Habits Blog | Created with HTML, CSS & JavaScript</p>
+    </footer>
+
+    <script>
+        // Initial reading data
+        let readingData = [30, 45, 25, 60, 40, 70, 55];
+
+        const days = [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+        ];
+
+        const ctx = document
+            .getElementById("readingChart")
+            .getContext("2d");
+
+        // Create chart
+        let readingChart = new Chart(ctx, {
+            type: "bar",
+
+            data: {
+                labels: days,
+
+                datasets: [{
+                    label: "Reading Time (minutes)",
+                    data: readingData,
+
+                    backgroundColor: [
+                        "#2563eb",
+                        "#3b82f6",
+                        "#60a5fa",
+                        "#2563eb",
+                        "#3b82f6",
+                        "#60a5fa",
+                        "#2563eb"
+                    ],
+
+                    borderColor: "#1e40af",
+                    borderWidth: 1
+                }]
+            },
+
+            options: {
+                responsive: true,
+
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: "Minutes"
+                        }
+                    },
+
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Day"
+                        }
+                    }
+                },
+
+                plugins: {
+                    legend: {
+                        display: true
+                    }
+                }
+            }
+        });
+
+        // Generate new random data
+        function updateChart() {
+
+            readingData = days.map(function() {
+                return Math.floor(Math.random() * 90) + 10;
+            });
+
+            readingChart.data.datasets[0].data = readingData;
+
+            readingChart.update();
+        }
+    </script>
+
+</body>
+</html>
